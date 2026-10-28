@@ -1,14 +1,14 @@
-#Reporte ciudadano
+# Reporte ciudadano
 
 API REST hecha con Django y Django REST Framework para que los ciudadanos reporten problemas de su comunidad, como falta de luz, daños en carreteras o problemas de agua, y las instituciones les den seguimiento. Usa MySQL, autenticación por token y permisos. No tiene interfaz gráfica; se prueba con Postman.
 
-##Requisito
+## Requisito
 
 - Python 3.12 o superior
 - MySQL y MySQL Workbench
 - Postman
 
-##Instalacion
+## Instalacion
 
 En la carpeta donde está `manage.py`:
 
@@ -19,7 +19,7 @@ pip install -r requirements.txt
 Copy-Item .env.example .env
 ```
 
-##Creacion de la base de datos
+## Creacion de la base de datos
 
 En MySQL Workbench:
 
@@ -32,7 +32,7 @@ FLUSH PRIVILEGES;
 
 Luego, en el archivo `.env`, escribir en `DB_PASSWORD` la misma clave usada en MySQL.
 
-#Migraciobes
+# Migraciobes
 
 ```
 python manage.py migrate
@@ -41,7 +41,7 @@ python manage.py loaddata datos_iniciales.json
 
 `loaddata` carga datos de prueba: instituciones, categorías, reportes, los grupos Ciudadanos y Operadores, y los usuarios de prueba.
 
-##Superusuario
+## Superusuario
 
 Los datos de prueba ya incluyen el superusuario `admin` con contraseña `admin123`. Si no se cargan los datos, se crea con:
 
@@ -51,7 +51,7 @@ python manage.py createsuperuser
 
 Otros usuarios de prueba: `operador1` (Operador2026!) y `ciudadano1`, `ciudadano2`, `ciudadano3` (Ciudadano2026!).
 
-##Ejecucion
+## Ejecucion
 
 ```
 python manage.py runserver
@@ -61,13 +61,13 @@ El token se obtiene con `POST /api/token/` enviando usuario y contraseña, y se 
 
 La colección de Postman está en la carpeta `postman` y el documento técnico, con los endpoints, en la carpeta `docs`.
 
-##Pruebas
+## Pruebas
 
 ```
 python manage.py test --settings=reporteciudadano_backend.test_settings
 ```
 
-##Limitaciones
+## Limitaciones
 
 - No tiene interfaz gráfica.
 - No permite subir fotos en los reportes.

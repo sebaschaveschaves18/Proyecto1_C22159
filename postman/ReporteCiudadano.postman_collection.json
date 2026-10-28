@@ -1,0 +1,1706 @@
+{
+  "info": {
+    "name": "Reporte Ciudadano API",
+    "description": "Colección del proyecto Reporte Ciudadano. Ejecutar en orden después de: migrate + loaddata datos_iniciales.json. Cada solicitud indica la respuesta esperada y tiene una prueba del código HTTP.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "0. Autenticación y perfil",
+      "item": [
+        {
+          "name": "Token administrador -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) { pm.collectionVariables.set(\"token_admin\", pm.response.json().token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/token/",
+            "description": "Respuesta esperada: 200. Obtiene el token del superusuario admin y lo guarda en token_admin.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Token operador -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) { pm.collectionVariables.set(\"token_operador\", pm.response.json().token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/token/",
+            "description": "Respuesta esperada: 200. Obtiene el token de operador1 (grupo Operadores).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"operador1\",\n  \"password\": \"Operador2026!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Token ciudadano1 -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) { pm.collectionVariables.set(\"token_ciudadano\", pm.response.json().token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/token/",
+            "description": "Respuesta esperada: 200. Obtiene el token de ciudadano1 (grupo Ciudadanos).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"ciudadano1\",\n  \"password\": \"Ciudadano2026!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Token ciudadano2 -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });",
+                  "if (pm.response.code === 200) { pm.collectionVariables.set(\"token_ciudadano2\", pm.response.json().token); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/token/",
+            "description": "Respuesta esperada: 200. Obtiene el token de ciudadano2 (grupo Ciudadanos).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"ciudadano2\",\n  \"password\": \"Ciudadano2026!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Token con contraseña incorrecta -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/token/",
+            "description": "Respuesta esperada: 400. Credenciales inválidas: DRF responde 400 con non_field_errors.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"ciudadano1\",\n  \"password\": \"incorrecta\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Perfil sin token -> 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/perfil/",
+            "description": "Respuesta esperada: 401. Endpoint protegido con IsAuthenticated; sin header Authorization."
+          }
+        },
+        {
+          "name": "Perfil con token -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/perfil/",
+            "description": "Respuesta esperada: 200. Devuelve id, username, email, rol (Ciudadano) y grupos."
+          }
+        }
+      ]
+    },
+    {
+      "name": "1. Instituciones",
+      "item": [
+        {
+          "name": "Listar instituciones públicas ordenadas -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/instituciones/?ordering=nombre&activo=true",
+            "description": "Respuesta esperada: 200. Consulta pública, filtro activo y orden por nombre; paginada de 5 en 5."
+          }
+        },
+        {
+          "name": "Crear institución -> 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"institucion_id\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/",
+            "description": "Respuesta esperada: 201. Admin con add_institucion crea una institución; se guarda institucion_id.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Cruz Roja Costarricense\",\n  \"siglas\": \"CRC\",\n  \"telefono\": \"2542-5000\",\n  \"email\": \"info@crc.example.com\",\n  \"activo\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear institución con siglas duplicadas -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/",
+            "description": "Respuesta esperada: 400. RN-01: siglas ya registradas (sin importar mayúsculas).",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Otra institución\",\n  \"siglas\": \"aya\",\n  \"telefono\": \"2222-2222\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear institución sin permiso -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/",
+            "description": "Respuesta esperada: 403. Ciudadano autenticado sin add_institucion.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Institución X\",\n  \"siglas\": \"IX\",\n  \"telefono\": \"2222-3333\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Actualizar institución (PATCH) -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/{{institucion_id}}/",
+            "description": "Respuesta esperada: 200. Cambia solo el teléfono.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"telefono\": \"2542-5050\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Eliminar institución con categorías -> 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/2/",
+            "description": "Respuesta esperada: 409. RN-11: CNFL tiene categorías (on_delete=PROTECT) -> conflicto."
+          }
+        },
+        {
+          "name": "Eliminar institución -> 204",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/instituciones/{{institucion_id}}/",
+            "description": "Respuesta esperada: 204. Elimina la institución creada (no tiene categorías)."
+          }
+        },
+        {
+          "name": "Detalle de institución inexistente -> 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/instituciones/99999/",
+            "description": "Respuesta esperada: 404. El id no existe."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Categorías",
+      "item": [
+        {
+          "name": "Listar categorías con filtros combinados -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/categorias/?institucion=2&activo=true&prioridad=ALTA",
+            "description": "Respuesta esperada: 200. Filtros combinables por institución, estado y prioridad (consulta pública)."
+          }
+        },
+        {
+          "name": "Crear categoría -> 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"categoria_id\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/categorias/",
+            "description": "Respuesta esperada: 201. Admin crea una categoría para AYA; se guarda categoria_id.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Agua turbia\",\n  \"descripcion\": \"Agua con color o mal olor\",\n  \"institucion\": 1,\n  \"prioridad_base\": \"MEDIA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear categoría con institución inactiva -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/categorias/",
+            "description": "Respuesta esperada: 400. RN-02: el ICE (id 5) está inactivo.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Poste caído\",\n  \"institucion\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Actualizar categoría (PUT) -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/categorias/{{categoria_id}}/",
+            "description": "Respuesta esperada: 200. PUT envía todos los campos.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Agua turbia o con olor\",\n  \"descripcion\": \"Calidad del agua\",\n  \"institucion\": 1,\n  \"prioridad_base\": \"ALTA\",\n  \"activo\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Eliminar categoría -> 204",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/categorias/{{categoria_id}}/",
+            "description": "Respuesta esperada: 204. La categoría nueva no tiene reportes."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Reportes",
+      "item": [
+        {
+          "name": "Listar reportes sin token -> 401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 401\", function () { pm.response.to.have.status(401); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 401. Las consultas de reportes requieren token."
+          }
+        },
+        {
+          "name": "Listar reportes con filtros, búsqueda y orden -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/?estado=EN_PROCESO&institucion=3&buscar=hueco&ordering=-fecha_creacion&page=1",
+            "description": "Respuesta esperada: 200. Filtro por estado y por relación (institución del MOPT), búsqueda y paginación."
+          }
+        },
+        {
+          "name": "Crear reporte -> 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"reporte_id\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 201. ciudadano2 reporta; el sistema asigna ciudadano, estado RECIBIDO y prioridad ALTA (de la categoría). Se guarda reporte_id.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Sin agua en la calle 5\",\n  \"descripcion\": \"Desde la mañana no hay agua en ninguna casa de la calle.\",\n  \"categoria\": 3,\n  \"distrito\": \"Barranca\",\n  \"direccion\": \"Calle 5, frente al colegio\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear reporte con descripción corta -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 400. RN-03: la descripción debe tener al menos 10 caracteres.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Sin luz\",\n  \"descripcion\": \"Sin luz\",\n  \"categoria\": 1,\n  \"distrito\": \"Esparza\",\n  \"direccion\": \"Centro\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear reporte duplicado abierto -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 400. RN-05: ya existe un reporte abierto de ciudadano2 en la misma categoría y distrito.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Sigue sin agua\",\n  \"descripcion\": \"Continúa sin servicio de agua en la calle.\",\n  \"categoria\": 3,\n  \"distrito\": \"Barranca\",\n  \"direccion\": \"Calle 5\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear reporte en categoría inactiva -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 400. RN-04: la categoría Señalización vial (id 9) está inactiva.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Señal caída\",\n  \"descripcion\": \"La señal de alto está en el suelo.\",\n  \"categoria\": 9,\n  \"distrito\": \"Esparza\",\n  \"direccion\": \"Cruce principal\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Crear reporte como operador -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/",
+            "description": "Respuesta esperada: 403. El operador no pertenece al grupo Ciudadanos.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Prueba\",\n  \"descripcion\": \"Reporte de prueba del operador.\",\n  \"categoria\": 1,\n  \"distrito\": \"Esparza\",\n  \"direccion\": \"Centro\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado inválido -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/{{reporte_id}}/",
+            "description": "Respuesta esperada: 400. RN-06: no se puede pasar de RECIBIDO a RESUELTO directamente.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"RESUELTO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Mis reportes -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/mis-reportes/",
+            "description": "Respuesta esperada: 200. Reportes del usuario del token (ciudadano2)."
+          }
+        },
+        {
+          "name": "Historial de reporte -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/1/historial/",
+            "description": "Respuesta esperada: 200. Reporte, seguimientos (prefetch_related) y total de apoyos."
+          }
+        },
+        {
+          "name": "Estadísticas con ciudadano -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/estadisticas/",
+            "description": "Respuesta esperada: 403. Solo IsAdminUser."
+          }
+        },
+        {
+          "name": "Estadísticas con admin -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/estadisticas/",
+            "description": "Respuesta esperada: 200. Agregaciones: por estado, por categoría, institución con más abiertos y más apoyados."
+          }
+        },
+        {
+          "name": "Detalle de reporte inexistente -> 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/99999/",
+            "description": "Respuesta esperada: 404. El id no existe."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Seguimientos",
+      "item": [
+        {
+          "name": "Registrar seguimiento -> 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"seguimiento_id\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/seguimientos/",
+            "description": "Respuesta esperada: 201. El operador registra un avance; el reporte pasa automáticamente a EN_PROCESO. Se guarda seguimiento_id.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": \"{{reporte_id}}\",\n  \"tipo\": \"INSPECCION\",\n  \"comentario\": \"Se verificó la válvula del sector.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Seguimiento en reporte cerrado -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/seguimientos/",
+            "description": "Respuesta esperada: 400. RN-08: el reporte 4 está RESUELTO.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 4,\n  \"tipo\": \"COMENTARIO\",\n  \"comentario\": \"Comentario tardío.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Seguimiento como ciudadano -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/seguimientos/",
+            "description": "Respuesta esperada: 403. El ciudadano no tiene add_seguimiento.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 1,\n  \"tipo\": \"COMENTARIO\",\n  \"comentario\": \"Quiero comentar.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Actualizar seguimiento (PATCH) -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/seguimientos/{{seguimiento_id}}/",
+            "description": "Respuesta esperada: 200. Corrige el comentario.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comentario\": \"Se reparó la válvula del sector.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar seguimientos de un reporte -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/seguimientos/?reporte={{reporte_id}}&tipo=INSPECCION",
+            "description": "Respuesta esperada: 200. Filtros combinables reporte + tipo."
+          }
+        },
+        {
+          "name": "Resolver reporte -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/{{reporte_id}}/",
+            "description": "Respuesta esperada: 200. RN-06/RN-07: EN_PROCESO -> RESUELTO y se llena fecha_resolucion.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"RESUELTO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Modificar reporte resuelto -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_operador}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/{{reporte_id}}/",
+            "description": "Respuesta esperada: 400. RN-06: un reporte cerrado no se modifica.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Cambio tardío\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Apoyos",
+      "item": [
+        {
+          "name": "Apoyar reporte -> 201",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 201\", function () { pm.response.to.have.status(201); });",
+                  "if (pm.response.code === 201) { pm.collectionVariables.set(\"apoyo_id\", pm.response.json().id); }"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/",
+            "description": "Respuesta esperada: 201. ciudadano1 apoya el reporte 5 de ciudadano2. Se guarda apoyo_id.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Apoyo duplicado -> 409",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/",
+            "description": "Respuesta esperada: 409. RN-10: ciudadano1 ya apoyó el reporte 5.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 5\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Apoyar su propio reporte -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/",
+            "description": "Respuesta esperada: 400. RN-09: el reporte 7 es de ciudadano1.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 7\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Apoyar reporte cerrado -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/",
+            "description": "Respuesta esperada: 400. RN-09: el reporte 6 está RECHAZADO.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reporte\": 6\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Listar apoyos de un reporte -> 200",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/?reporte=5",
+            "description": "Respuesta esperada: 200. Filtro por reporte."
+          }
+        },
+        {
+          "name": "Eliminar apoyo ajeno -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/{{apoyo_id}}/",
+            "description": "Respuesta esperada: 403. ciudadano2 intenta borrar el apoyo de ciudadano1."
+          }
+        },
+        {
+          "name": "Eliminar su apoyo -> 204",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/apoyos/{{apoyo_id}}/",
+            "description": "Respuesta esperada: 204. ciudadano1 retira su apoyo."
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Eliminación de reportes",
+      "item": [
+        {
+          "name": "Eliminar reporte como ciudadano -> 403",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 403\", function () { pm.response.to.have.status(403); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_ciudadano2}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/{{reporte_id}}/",
+            "description": "Respuesta esperada: 403. Solo IsAdminUser puede eliminar reportes."
+          }
+        },
+        {
+          "name": "Eliminar reporte como admin -> 204",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Responde 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_admin}}",
+                "type": "text"
+              }
+            ],
+            "url": "{{base_url}}/api/reportes/{{reporte_id}}/",
+            "description": "Respuesta esperada: 204. Se eliminan también sus seguimientos y apoyos (CASCADE)."
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "token_admin",
+      "value": ""
+    },
+    {
+      "key": "token_operador",
+      "value": ""
+    },
+    {
+      "key": "token_ciudadano",
+      "value": ""
+    },
+    {
+      "key": "token_ciudadano2",
+      "value": ""
+    },
+    {
+      "key": "institucion_id",
+      "value": ""
+    },
+    {
+      "key": "categoria_id",
+      "value": ""
+    },
+    {
+      "key": "reporte_id",
+      "value": ""
+    },
+    {
+      "key": "seguimiento_id",
+      "value": ""
+    },
+    {
+      "key": "apoyo_id",
+      "value": ""
+    }
+  ]
+}

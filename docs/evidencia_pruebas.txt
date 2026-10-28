@@ -1,0 +1,48 @@
+Comando: python manage.py test --settings=reporteciudadano_backend.test_settings -v 2
+Fecha: 2026-10-28 10:57
+
+Found 36 test(s).
+Creating test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...
+System check identified no issues (0 silenced).
+test_apoyar_reporte (apoyos.tests.ApoyosAPITests.test_apoyar_reporte) ... ok
+test_apoyo_duplicado_devuelve_409 (apoyos.tests.ApoyosAPITests.test_apoyo_duplicado_devuelve_409) ... ok
+test_elimina_su_apoyo (apoyos.tests.ApoyosAPITests.test_elimina_su_apoyo) ... ok
+test_no_apoya_su_propio_reporte (apoyos.tests.ApoyosAPITests.test_no_apoya_su_propio_reporte) ... ok
+test_no_elimina_apoyo_ajeno (apoyos.tests.ApoyosAPITests.test_no_elimina_apoyo_ajeno) ... ok
+test_tres_apoyos_suben_prioridad (apoyos.tests.ApoyosAPITests.test_tres_apoyos_suben_prioridad) ... ok
+test_actualizar_categoria_con_patch (categorias.tests.CategoriasAPITests.test_actualizar_categoria_con_patch) ... ok
+test_categoria_inexistente_devuelve_404 (categorias.tests.CategoriasAPITests.test_categoria_inexistente_devuelve_404) ... ok
+test_filtro_combinado_y_paginacion (categorias.tests.CategoriasAPITests.test_filtro_combinado_y_paginacion) ... ok
+test_rechaza_institucion_inactiva (categorias.tests.CategoriasAPITests.test_rechaza_institucion_inactiva) ... ok
+test_crear_institucion (instituciones.tests.InstitucionesAPITests.test_crear_institucion) ... ok
+test_crear_sin_permiso_devuelve_403 (instituciones.tests.InstitucionesAPITests.test_crear_sin_permiso_devuelve_403) ... ok
+test_crear_sin_token_devuelve_401 (instituciones.tests.InstitucionesAPITests.test_crear_sin_token_devuelve_401) ... ok
+test_eliminar_institucion (instituciones.tests.InstitucionesAPITests.test_eliminar_institucion) ... ok
+test_listado_publico (instituciones.tests.InstitucionesAPITests.test_listado_publico) ... ok
+test_no_elimina_institucion_con_categorias (instituciones.tests.InstitucionesAPITests.test_no_elimina_institucion_con_categorias) ... ok
+test_rechaza_siglas_duplicadas (instituciones.tests.InstitucionesAPITests.test_rechaza_siglas_duplicadas) ... ok
+test_admin_elimina_reporte (reportes.tests.ReportesAPITests.test_admin_elimina_reporte) ... ok
+test_categoria_inactiva_devuelve_400 (reportes.tests.ReportesAPITests.test_categoria_inactiva_devuelve_400) ... ok
+test_ciudadano_crea_reporte (reportes.tests.ReportesAPITests.test_ciudadano_crea_reporte) ... ok
+test_ciudadano_no_puede_eliminar_reporte (reportes.tests.ReportesAPITests.test_ciudadano_no_puede_eliminar_reporte) ... ok
+test_descripcion_corta_devuelve_400 (reportes.tests.ReportesAPITests.test_descripcion_corta_devuelve_400) ... ok
+test_estadisticas_solo_administrador (reportes.tests.ReportesAPITests.test_estadisticas_solo_administrador) ... ok
+test_filtros_busqueda_y_paginacion (reportes.tests.ReportesAPITests.test_filtros_busqueda_y_paginacion) ... ok
+test_listado_sin_token_devuelve_401 (reportes.tests.ReportesAPITests.test_listado_sin_token_devuelve_401) ... ok
+test_no_permite_reporte_duplicado_abierto (reportes.tests.ReportesAPITests.test_no_permite_reporte_duplicado_abierto) ... ok
+test_operador_no_puede_crear_reporte (reportes.tests.ReportesAPITests.test_operador_no_puede_crear_reporte) ... ok
+test_patch_no_se_bloquea_a_si_mismo (reportes.tests.ReportesAPITests.test_patch_no_se_bloquea_a_si_mismo) ... ok
+test_perfil_devuelve_rol (reportes.tests.ReportesAPITests.test_perfil_devuelve_rol) ... ok
+test_reporte_inexistente_devuelve_404 (reportes.tests.ReportesAPITests.test_reporte_inexistente_devuelve_404) ... ok
+test_resolver_reporte_y_bloquear_cambios (reportes.tests.ReportesAPITests.test_resolver_reporte_y_bloquear_cambios) ... ok
+test_transicion_de_estado_invalida (reportes.tests.ReportesAPITests.test_transicion_de_estado_invalida) ... ok
+test_ciudadano_no_registra_seguimiento (seguimientos.tests.SeguimientosAPITests.test_ciudadano_no_registra_seguimiento) ... ok
+test_operador_registra_seguimiento (seguimientos.tests.SeguimientosAPITests.test_operador_registra_seguimiento) ... ok
+test_patch_comentario_corto_devuelve_400 (seguimientos.tests.SeguimientosAPITests.test_patch_comentario_corto_devuelve_400) ... ok
+test_reporte_cerrado_no_admite_seguimientos (seguimientos.tests.SeguimientosAPITests.test_reporte_cerrado_no_admite_seguimientos) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 0.401s
+
+OK
+Destroying test database for alias 'default' ('file:memorydb_default?mode=memory&cache=shared')...

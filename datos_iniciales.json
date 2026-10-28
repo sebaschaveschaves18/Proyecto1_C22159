@@ -1,0 +1,594 @@
+[
+{
+  "model": "auth.group",
+  "pk": 1,
+  "fields": {
+    "name": "Ciudadanos",
+    "permissions": [
+      [
+        "add_apoyo",
+        "apoyos",
+        "apoyo"
+      ],
+      [
+        "delete_apoyo",
+        "apoyos",
+        "apoyo"
+      ],
+      [
+        "view_apoyo",
+        "apoyos",
+        "apoyo"
+      ],
+      [
+        "add_reporte",
+        "reportes",
+        "reporte"
+      ],
+      [
+        "view_reporte",
+        "reportes",
+        "reporte"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.group",
+  "pk": 2,
+  "fields": {
+    "name": "Operadores",
+    "permissions": [
+      [
+        "change_reporte",
+        "reportes",
+        "reporte"
+      ],
+      [
+        "view_reporte",
+        "reportes",
+        "reporte"
+      ],
+      [
+        "add_seguimiento",
+        "seguimientos",
+        "seguimiento"
+      ],
+      [
+        "change_seguimiento",
+        "seguimientos",
+        "seguimiento"
+      ],
+      [
+        "view_seguimiento",
+        "seguimientos",
+        "seguimiento"
+      ]
+    ]
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$dkhZkNZx44yXcAkC4dXh4b$UnG/QALhceTnNd+kPUm+h47WYBLYJZ/3mNOG6nbpWXE=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@reporteciudadano.example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-10-28T16:54:35.727Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$LNTdi2BPgMOMKTSjwxPsmY$Tw8ICOMbGXFxaqiL04Fu9r3MzC1oLLNX6Q1DBPdDiDI=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "operador1",
+    "first_name": "Laura",
+    "last_name": "Mora",
+    "email": "operador1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T16:54:36.206Z",
+    "groups": [
+      [
+        "Operadores"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$aB8lNkhpP7Wd1L0jwwcSa4$ThKSRwHd9AZOLbzlq+KI6M33yLmID+8U+8rqDiLNA4k=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ciudadano1",
+    "first_name": "Carlos",
+    "last_name": "Jiménez",
+    "email": "ciudadano1@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T16:54:36.672Z",
+    "groups": [
+      [
+        "Ciudadanos"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$KcglpjMMhVh3TL7uyB05a7$zNMPFWYqc7mmynovl6c/W7FC83BwidUBNJdEYSRrHPw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ciudadano2",
+    "first_name": "Ana",
+    "last_name": "Rodríguez",
+    "email": "ciudadano2@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T16:54:37.168Z",
+    "groups": [
+      [
+        "Ciudadanos"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 5,
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$g5uMbMCAmcr5WLkSckK5Ju$88/a9DrKwMVFZII9CIINcAt4Bs5s6nzJuU9tFUXvF8I=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ciudadano3",
+    "first_name": "Pedro",
+    "last_name": "Vargas",
+    "email": "ciudadano3@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-10-28T16:54:37.634Z",
+    "groups": [
+      [
+        "Ciudadanos"
+      ]
+    ],
+    "user_permissions": []
+  }
+},
+{
+  "model": "instituciones.institucion",
+  "pk": 1,
+  "fields": {
+    "nombre": "Instituto Costarricense de Acueductos y Alcantarillados",
+    "siglas": "AYA",
+    "telefono": "2242-5000",
+    "email": "contacto@aya.example.com",
+    "activo": true
+  }
+},
+{
+  "model": "instituciones.institucion",
+  "pk": 2,
+  "fields": {
+    "nombre": "Compañía Nacional de Fuerza y Luz",
+    "siglas": "CNFL",
+    "telefono": "2295-5000",
+    "email": "averias@cnfl.example.com",
+    "activo": true
+  }
+},
+{
+  "model": "instituciones.institucion",
+  "pk": 3,
+  "fields": {
+    "nombre": "Ministerio de Obras Públicas y Transportes",
+    "siglas": "MOPT",
+    "telefono": "2523-2000",
+    "email": "vias@mopt.example.com",
+    "activo": true
+  }
+},
+{
+  "model": "instituciones.institucion",
+  "pk": 4,
+  "fields": {
+    "nombre": "Municipalidad de Puntarenas",
+    "siglas": "MUNIPUN",
+    "telefono": "2661-0250",
+    "email": "servicios@munipun.example.com",
+    "activo": true
+  }
+},
+{
+  "model": "instituciones.institucion",
+  "pk": 5,
+  "fields": {
+    "nombre": "Instituto Costarricense de Electricidad",
+    "siglas": "ICE",
+    "telefono": "2000-7720",
+    "email": "",
+    "activo": false
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 1,
+  "fields": {
+    "nombre": "Sin electricidad",
+    "descripcion": "Corte de luz en una casa, calle o barrio",
+    "institucion": 2,
+    "prioridad_base": "ALTA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 2,
+  "fields": {
+    "nombre": "Alumbrado público dañado",
+    "descripcion": "Lámparas de la calle apagadas o dañadas",
+    "institucion": 2,
+    "prioridad_base": "BAJA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 3,
+  "fields": {
+    "nombre": "Sin agua potable",
+    "descripcion": "Falta de servicio de agua",
+    "institucion": 1,
+    "prioridad_base": "ALTA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 4,
+  "fields": {
+    "nombre": "Fuga de agua",
+    "descripcion": "Tubería rota o fuga en la vía",
+    "institucion": 1,
+    "prioridad_base": "MEDIA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 5,
+  "fields": {
+    "nombre": "Daño en carretera",
+    "descripcion": "Huecos, hundimientos o derrumbes en la vía",
+    "institucion": 3,
+    "prioridad_base": "MEDIA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 6,
+  "fields": {
+    "nombre": "Puente dañado",
+    "descripcion": "Daños estructurales en puentes",
+    "institucion": 3,
+    "prioridad_base": "ALTA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 7,
+  "fields": {
+    "nombre": "Basura acumulada",
+    "descripcion": "Falta de recolección de residuos",
+    "institucion": 4,
+    "prioridad_base": "BAJA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 8,
+  "fields": {
+    "nombre": "Alcantarilla obstruida",
+    "descripcion": "Alcantarillas o caños tapados",
+    "institucion": 4,
+    "prioridad_base": "MEDIA",
+    "activo": true
+  }
+},
+{
+  "model": "categorias.categoria",
+  "pk": 9,
+  "fields": {
+    "nombre": "Señalización vial",
+    "descripcion": "Señales de tránsito dañadas (categoría en revisión)",
+    "institucion": 3,
+    "prioridad_base": "BAJA",
+    "activo": false
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 1,
+  "fields": {
+    "titulo": "Barrio sin luz desde anoche",
+    "descripcion": "Toda la cuadra está sin electricidad desde las 9 p.m.",
+    "categoria": 1,
+    "ciudadano": [
+      "ciudadano1"
+    ],
+    "distrito": "Barranca",
+    "direccion": "200 m sur de la plaza de deportes",
+    "estado": "EN_PROCESO",
+    "prioridad": "ALTA",
+    "fecha_creacion": "2026-10-28T16:54:38.104Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 2,
+  "fields": {
+    "titulo": "Hueco grande en la vía principal",
+    "descripcion": "Hueco profundo en la carretera, peligroso para motos y bicicletas.",
+    "categoria": 5,
+    "ciudadano": [
+      "ciudadano2"
+    ],
+    "distrito": "El Roble",
+    "direccion": "Frente al supermercado",
+    "estado": "RECIBIDO",
+    "prioridad": "MEDIA",
+    "fecha_creacion": "2026-10-28T16:54:38.104Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 3,
+  "fields": {
+    "titulo": "No llega agua al residencial",
+    "descripcion": "Hace dos días no hay agua potable en el residencial.",
+    "categoria": 3,
+    "ciudadano": [
+      "ciudadano3"
+    ],
+    "distrito": "Chacarita",
+    "direccion": "Residencial Los Almendros, casa 14",
+    "estado": "EN_PROCESO",
+    "prioridad": "ALTA",
+    "fecha_creacion": "2026-10-28T16:54:38.105Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 4,
+  "fields": {
+    "titulo": "Fuga de agua en la acera",
+    "descripcion": "Tubo roto que bota mucha agua sobre la acera.",
+    "categoria": 4,
+    "ciudadano": [
+      "ciudadano1"
+    ],
+    "distrito": "Puntarenas",
+    "direccion": "Paseo de los Turistas, frente al muelle",
+    "estado": "RESUELTO",
+    "prioridad": "MEDIA",
+    "fecha_creacion": "2026-10-28T16:54:38.106Z",
+    "fecha_resolucion": "2026-10-28T16:54:38.109Z"
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 5,
+  "fields": {
+    "titulo": "Lámparas apagadas en el parque",
+    "descripcion": "Tres lámparas del parque no encienden, el lugar queda muy oscuro.",
+    "categoria": 2,
+    "ciudadano": [
+      "ciudadano2"
+    ],
+    "distrito": "Barranca",
+    "direccion": "Parque central de Barranca",
+    "estado": "RECIBIDO",
+    "prioridad": "BAJA",
+    "fecha_creacion": "2026-10-28T16:54:38.107Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 6,
+  "fields": {
+    "titulo": "Basura sin recoger",
+    "descripcion": "El camión de basura no pasa desde hace una semana.",
+    "categoria": 7,
+    "ciudadano": [
+      "ciudadano3"
+    ],
+    "distrito": "El Roble",
+    "direccion": "Calle 3, contiguo a la iglesia",
+    "estado": "RECHAZADO",
+    "prioridad": "BAJA",
+    "fecha_creacion": "2026-10-28T16:54:38.107Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 7,
+  "fields": {
+    "titulo": "Puente con barandas caídas",
+    "descripcion": "Las barandas del puente están caídas y es peligroso para peatones.",
+    "categoria": 6,
+    "ciudadano": [
+      "ciudadano1"
+    ],
+    "distrito": "Esparza",
+    "direccion": "Puente sobre el río Barranca",
+    "estado": "RECIBIDO",
+    "prioridad": "ALTA",
+    "fecha_creacion": "2026-10-28T16:54:38.108Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "reportes.reporte",
+  "pk": 8,
+  "fields": {
+    "titulo": "Otro hueco en carretera",
+    "descripcion": "Hundimiento en la carretera después de las lluvias.",
+    "categoria": 5,
+    "ciudadano": [
+      "ciudadano3"
+    ],
+    "distrito": "Barranca",
+    "direccion": "Entrada a la zona franca",
+    "estado": "EN_PROCESO",
+    "prioridad": "MEDIA",
+    "fecha_creacion": "2026-10-28T16:54:38.108Z",
+    "fecha_resolucion": null
+  }
+},
+{
+  "model": "seguimientos.seguimiento",
+  "pk": 1,
+  "fields": {
+    "reporte": 1,
+    "operador": [
+      "operador1"
+    ],
+    "tipo": "INSPECCION",
+    "comentario": "Cuadrilla de CNFL confirmó transformador dañado.",
+    "fecha": "2026-10-28T16:54:38.110Z"
+  }
+},
+{
+  "model": "seguimientos.seguimiento",
+  "pk": 2,
+  "fields": {
+    "reporte": 3,
+    "operador": [
+      "operador1"
+    ],
+    "tipo": "COMENTARIO",
+    "comentario": "Se coordinó con AyA el envío de un camión cisterna.",
+    "fecha": "2026-10-28T16:54:38.111Z"
+  }
+},
+{
+  "model": "seguimientos.seguimiento",
+  "pk": 3,
+  "fields": {
+    "reporte": 4,
+    "operador": [
+      "operador1"
+    ],
+    "tipo": "REPARACION",
+    "comentario": "Se reemplazó el tramo de tubería dañado.",
+    "fecha": "2026-10-28T16:54:38.112Z"
+  }
+},
+{
+  "model": "seguimientos.seguimiento",
+  "pk": 4,
+  "fields": {
+    "reporte": 6,
+    "operador": [
+      "operador1"
+    ],
+    "tipo": "COMENTARIO",
+    "comentario": "Rechazado: la ruta de recolección se atendió el mismo día.",
+    "fecha": "2026-10-28T16:54:38.112Z"
+  }
+},
+{
+  "model": "seguimientos.seguimiento",
+  "pk": 5,
+  "fields": {
+    "reporte": 8,
+    "operador": [
+      "operador1"
+    ],
+    "tipo": "INSPECCION",
+    "comentario": "Se marcó el área y se programó la reparación.",
+    "fecha": "2026-10-28T16:54:38.113Z"
+  }
+},
+{
+  "model": "apoyos.apoyo",
+  "pk": 1,
+  "fields": {
+    "reporte": 1,
+    "ciudadano": [
+      "ciudadano2"
+    ],
+    "fecha": "2026-10-28T16:54:38.113Z"
+  }
+},
+{
+  "model": "apoyos.apoyo",
+  "pk": 2,
+  "fields": {
+    "reporte": 1,
+    "ciudadano": [
+      "ciudadano3"
+    ],
+    "fecha": "2026-10-28T16:54:38.114Z"
+  }
+},
+{
+  "model": "apoyos.apoyo",
+  "pk": 3,
+  "fields": {
+    "reporte": 2,
+    "ciudadano": [
+      "ciudadano1"
+    ],
+    "fecha": "2026-10-28T16:54:38.115Z"
+  }
+},
+{
+  "model": "apoyos.apoyo",
+  "pk": 4,
+  "fields": {
+    "reporte": 2,
+    "ciudadano": [
+      "ciudadano3"
+    ],
+    "fecha": "2026-10-28T16:54:38.115Z"
+  }
+},
+{
+  "model": "apoyos.apoyo",
+  "pk": 5,
+  "fields": {
+    "reporte": 7,
+    "ciudadano": [
+      "ciudadano2"
+    ],
+    "fecha": "2026-10-28T16:54:38.116Z"
+  }
+}
+]
